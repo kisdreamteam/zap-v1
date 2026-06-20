@@ -12,6 +12,7 @@ Zap! is a teacher-controlled, AI-assisted classroom storytelling activity design
 
 The workflow prioritizes:
 
+* story-first projected display
 * classroom discussion
 * low preparation
 * minimal cognitive load
@@ -138,6 +139,8 @@ Immediately after the opening scene is successfully generated, the first persist
 
 The Story Workspace is the heart of Zap!. This is where classroom discussion occurs.
 
+The default view prioritizes **screen real estate for the story text**. Auxiliary AI content does not appear on the main screen unless the teacher explicitly requests it.
+
 ### Layout
 
 ```text
@@ -147,37 +150,27 @@ Current Story Scene
 
 ------------------------------------------------
 
-Discussion Prompt
+[ Custom Choice ]          [ End Story ]
 
-------------------------------------------------
-
-Choice A
-
-Choice B
-
-Choice C
-
-------------------------------------------------
-
-[ Custom Choice ]
-
-[ Regenerate Choices ]
-
-[ End Story ]
+[ Plot Ideas ]  [ Discussion Prompts ]  [ Comprehension Questions ]
 
 ------------------------------------------------
 ```
+
+The story scene dominates the display. Teacher controls remain minimal on the main screen. On-demand tools are available through separate teacher-only buttons; each opens a modal or overlay on the same page without navigating away.
 
 ### Core Loop
 
 ```text
 AI presents situation
         ↓
-AI proposes actions
-        ↓
 Students discuss
         ↓
-Teacher chooses
+Teacher decides direction
+        ↓
+(Optional) Teacher opens on-demand tools
+        ↓
+Teacher chooses or enters custom direction
         ↓
 AI continues
         ↓
@@ -186,9 +179,48 @@ Repeat
 
 This loop continues until the teacher decides to end the story.
 
+The teacher may advance the story using **Custom Choice** alone, or open **Plot Ideas** when AI-suggested directions would help. On-demand tools never interrupt the default story view.
+
+### Teacher Tools (On Demand)
+
+Plot ideas, discussion prompts, and comprehension questions are **teacher-activated only**. They are **never** auto-displayed on any screen — including the live story workspace, the review/wrap-up screen, and the completed story archive read-only view.
+
+Behavior:
+
+* each feature has its own button on the story workspace, review screen, or archive view where applicable
+* the teacher's action triggers the API call; content is not pre-generated, pre-shown, or mixed into the story display
+* results appear in a **modal or screen overlay** on the same page — never inline with or woven into story text
+* the overlay is dismissible; closing it returns immediately to the story-first view
+* **Regenerate** (or equivalent) is available inside each overlay (plot ideas, discussion prompts, comprehension questions)
+
+**Story vs facilitation content:** On every screen where story text appears, story text and generated prompts/questions remain **clearly distinguishable**. Facilitation content lives only inside its overlay.
+
+These tools support facilitation. They do not permanently consume story screen space.
+
+### Overlay Context (Mid-Session vs Whole-Story)
+
+Discussion prompts and comprehension questions use the same button → overlay pattern everywhere, but the overlay should feel **slightly different by context** so the teacher understands what kind of facilitation they are getting. This is product/UX intent — distinct overlay modes or visual treatment, not pixel-level design.
+
+| Context | Where | Overlay character |
+|--------|--------|-------------------|
+| **In-session** | Story workspace during an in-progress story | Focused on the **current scene / recent story**; lighter, in-the-moment facilitation |
+| **Whole-story** | Review/wrap-up screen and completed story archive | **Distinct overlay treatment**; may address the **full story**, broader themes, recap, and reflection — but generated content is **not limited** to whole-story scope (it may still be scene-specific when appropriate) |
+
+Plot ideas use the in-session overlay only (direction suggestions for what happens next).
+
 ### Discussion Prompts
 
-Discussion prompts are always visible. They should remain concise and easy to read.
+Discussion prompts are **never** shown on the main screen — only inside an overlay after the teacher taps **Discussion Prompts**.
+
+When activated, the API generates facilitation prompts inside the overlay. Prompts should remain concise and easy to read.
+
+Availability:
+
+* **In-session:** button on the story workspace
+* **Review/wrap-up screen:** button available; teacher-triggered only (not auto-displayed)
+* **Completed story archive:** button available for classroom re-read sessions; teacher-triggered only
+
+Overlay context follows the table above: **in-session facilitation overlay** during live storytelling; **whole-story facilitation overlay** on review and archive screens.
 
 Purpose:
 
@@ -197,37 +229,53 @@ Purpose:
 * reduce classroom silence
 * support participation
 
-### Choices
+**Regenerate:** While the overlay is open, the teacher may regenerate prompts without leaving the overlay.
 
-The AI always presents three choices:
+The teacher may dismiss the overlay and continue facilitating live discussion without using generated prompts.
 
-```text
-Choice A
-Choice B
-Choice C
-```
+### Plot Idea Choices
 
-These choices represent possible directions for the story. Students discuss the options. The teacher decides.
+Plot idea choices are **not** shown on the main story screen by default.
 
-When the teacher selects a choice:
+When the teacher taps **Plot Ideas**, a modal or overlay opens and the API generates three possible directions (Choice A, B, C). These represent possible next steps. Students discuss the options. The teacher decides.
+
+When the teacher selects a choice from the overlay:
 
 ```text
-Teacher Clicks Choice
+Teacher Selects Choice (in overlay)
+        ↓
+Overlay Closes
         ↓
 AI Generates Next Scene
         ↓
 Auto Save
         ↓
 Display New Scene
-        ↓
-Display New Choices
 ```
 
-There is no confirmation screen, no preview screen, and no additional clicks. The goal is to minimize classroom dead air.
+There is no confirmation screen, no preview screen, and no additional clicks beyond the teacher's selection. New plot ideas are **not** auto-displayed on the main screen after each continuation. The goal is to minimize classroom dead air while keeping the projected view story-first.
+
+### Comprehension Questions
+
+Comprehension questions are **optional, teacher-triggered** facilitation aids — not a grading or assessment system. They are **never** auto-displayed on any screen.
+
+When the teacher taps **Comprehension Questions**, the API generates questions inside a separate overlay. The teacher shares these orally with the class for discussion. Questions never appear inline with story text.
+
+Availability:
+
+* **In-session:** button on the story workspace; teacher activates only when they choose to pause for comprehension discussion
+* **Review/wrap-up screen:** button available after the story conclusion is generated; teacher-triggered only (not auto-displayed)
+* **Completed story archive:** button on the read-only view for classroom re-read sessions; teacher-triggered only
+
+Overlay context follows the table above: **in-session facilitation overlay** during live storytelling; **whole-story facilitation overlay** on review and archive screens (may include broader recap/reflection questions, but not limited to them).
+
+**Regenerate:** While the overlay is open, the teacher may regenerate questions without leaving the overlay.
+
+Comprehension questions do not auto-show, do not score students, and do not require student accounts.
 
 ### Custom Choice
 
-Teachers may override AI suggestions. Selecting **Custom Choice** opens:
+**Custom Choice** is always available on the main story workspace. Teachers may advance the story without opening plot ideas. Selecting **Custom Choice** opens:
 
 ```text
 Custom Direction
@@ -246,19 +294,41 @@ The dragon becomes friendly and offers to help.
 
 The AI then continues the story from that direction.
 
-### Regenerate Choices
+### Regenerate in Overlay
 
-Teachers may regenerate choices at any time.
+If generated content does not fit the moment, the teacher can request new content without leaving the overlay. This applies to all three on-demand tools.
+
+**Plot Ideas:**
 
 ```text
-Current Scene
+Plot Ideas Overlay Open
         ↓
-Regenerate Choices
+Regenerate
         ↓
-New Choices
+New Choices (in overlay)
 ```
 
 Only the choices change. The current scene remains unchanged.
+
+**Discussion Prompts:**
+
+```text
+Discussion Prompts Overlay Open
+        ↓
+Regenerate
+        ↓
+New Prompts (in overlay)
+```
+
+**Comprehension Questions:**
+
+```text
+Comprehension Questions Overlay Open
+        ↓
+Regenerate
+        ↓
+New Questions (in overlay)
+```
 
 ```text
 History is immutable.
@@ -306,12 +376,36 @@ Teacher Clicks End Story
         ↓
 AI Generates Conclusion
         ↓
-Review Screen
+Review Screen (story text only)
         ↓
 Teacher Clicks Complete
         ↓
 Story Marked Complete
 ```
+
+The teacher may optionally open **Discussion Prompts** or **Comprehension Questions** from the review screen at any time before completing — each opens its whole-story facilitation overlay on button press. These steps are teacher-initiated; they are not part of the default flow above.
+
+### Review Screen
+
+The review screen is **story-first**. The main view displays the full story text only — no discussion prompts, comprehension questions, or other facilitation content mixed into or below the story.
+
+Layout:
+
+```text
+------------------------------------------------
+
+Full Story Text
+
+------------------------------------------------
+
+[ Complete ]
+
+[ Discussion Prompts ]  [ Comprehension Questions ]
+
+------------------------------------------------
+```
+
+Both facilitation buttons are on-demand only. Tapping either opens a **whole-story facilitation overlay** (distinct from in-session overlays). Generated content appears only inside the overlay, never inline with the story.
 
 Stories are not automatically completed. The teacher explicitly confirms completion.
 
@@ -350,10 +444,9 @@ The teacher sees:
 Resume Story
 
 [ Continue ]
-[ Regenerate Choices ]
 ```
 
-The story state is preserved. The teacher decides whether to keep or refresh the available choices.
+The story state is preserved. When the teacher opens **Plot Ideas**, they may regenerate choices inside the overlay if needed.
 
 ### Completed Stories
 
@@ -364,8 +457,26 @@ Completed Stories
     ↓
 Open Story
     ↓
-Read Only View
+Read Only View (story text only)
 ```
+
+The read-only view displays **story text only** on the main screen. Facilitation content is never shown inline with or flowing together with the story.
+
+Layout:
+
+```text
+------------------------------------------------
+
+Full Story Text
+
+------------------------------------------------
+
+[ Discussion Prompts ]  [ Comprehension Questions ]
+
+------------------------------------------------
+```
+
+Both buttons are on-demand only. Tapping either opens a **whole-story facilitation overlay** (distinct from in-session overlays). Generated content appears only inside the overlay.
 
 Completed stories:
 
@@ -392,7 +503,7 @@ Something went wrong.
 
 [ Try Again ]
 
-[ Regenerate Choices ]
+[ Open Plot Ideas ]
 
 [ Enter Custom Choice ]
 ```

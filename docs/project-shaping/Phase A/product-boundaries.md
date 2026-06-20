@@ -21,11 +21,13 @@ The story emerges through interaction between the AI, teacher, and students.
 ### Core Product Loop
 
 1. AI presents the current story situation.
-2. AI proposes possible next actions.
+2. When the teacher requests them, AI provides plot ideas, discussion prompts, or comprehension questions through on-demand overlays.
 3. Students discuss ideas.
-4. Teacher selects a suggestion or enters a custom direction.
+4. Teacher selects a plot idea or enters a custom direction.
 5. AI continues the story.
 6. Repeat until the story concludes.
+
+The default projected view remains **story-first**. Auxiliary AI content appears only when the teacher activates it.
 
 ---
 
@@ -130,6 +132,10 @@ For V1, a feature is scope creep if it does not directly improve one of:
 * classroom discussion
 * workflow clarity
 * ease of use
+
+**In bounds for V1:** on-demand comprehension questions that support live teacher-led discussion — provided they remain optional facilitation aids, not grading, curriculum tracking, or vocabulary analytics.
+
+**Out of bounds:** auto-scored quizzes, student answer collection, standards mapping, or any feature that reframes Zap as a lesson-planning or assessment platform.
 
 ---
 

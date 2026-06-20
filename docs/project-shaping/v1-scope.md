@@ -19,10 +19,11 @@ Included:
 * optional theme/style
 * creativity mode
 * opening scene
-* 3 choices
-* optional discussion prompts
-* regenerate choices
-* custom choice
+* on-demand plot idea choices (3 choices when generated; modal/overlay, not always on screen)
+* on-demand discussion prompts (modal/overlay, teacher-activated; in-session and whole-story overlay contexts)
+* on-demand comprehension questions (modal/overlay, teacher facilitation; not grading or assessment; in-session and whole-story overlay contexts)
+* regenerate in overlay for plot ideas, discussion prompts, and comprehension questions
+* custom choice (always available on main story workspace)
 * 3–5 rounds
 * ending generation
 * save story
@@ -46,6 +47,7 @@ Not V1:
 * continue/fork saved stories
 * curriculum tracking
 * vocabulary analytics
+* grading or student scoring for comprehension questions
 * classroom management
 * school admin dashboard
 

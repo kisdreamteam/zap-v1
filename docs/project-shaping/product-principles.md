@@ -12,8 +12,10 @@
 
 That means V1 includes:
 
-* regenerate choices
-* custom choice
+* custom choice (always on main story workspace)
+* on-demand plot ideas with regenerate in overlay
+* on-demand discussion prompts with regenerate in overlay (in-session and whole-story contexts)
+* on-demand comprehension questions with regenerate in overlay (in-session and whole-story contexts)
 * end story
 * safe/balanced/wild mode
 
