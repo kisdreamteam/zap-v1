@@ -43,13 +43,13 @@ Reduce ambiguity, scope creep, overengineering, rework, and implementation drift
 
 ## 4. Define Core Workflow
 
-* [ ] Map complete user journey
-* [ ] Define happy path
-* [ ] Define failure paths
+* [x] Map complete user journey
+* [x] Define happy path
+* [x] Define failure paths
 * [ ] Define edge cases
-* [ ] Define save behavior
+* [x] Define save behavior
 * [ ] Define edit behavior
-* [ ] Define persistence behavior
+* [x] Define persistence behavior
 
 ## 5. Define Inputs
 
